@@ -8,6 +8,7 @@ var app = require('../app');
 var debug = require('debug')('survey-app:server');
 var http = require('http');
 var config = require(__base + 'config');
+var _sequelize = require(__base + 'config/sequelize');
 
 /**
  * Get port from environment and store in Express.
@@ -29,6 +30,20 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+
+/**
+ * Sequelize authentication for MySQL
+ */
+ _sequelize
+   .authenticate()
+   .then(function(err) {
+     debug('Connection established to MySQL server.');
+   })
+   .catch(function (err) {
+     debug('Unable to connect to the database:' + err);
+   });
+
 
 /**
  * Normalize a port into a number, string, or false.

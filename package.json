@@ -12,7 +12,9 @@
     "express": "~4.13.4",
     "less-middleware": "1.0.x",
     "morgan": "~1.7.0",
+    "mysql": "^2.11.1",
     "nunjucks": "^2.4.2",
+    "sequelize": "^3.23.4",
     "serve-favicon": "~2.3.0"
   }
 }
