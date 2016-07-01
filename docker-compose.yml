@@ -1,0 +1,7 @@
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_DATABASE=surveydb
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  ports:
+    - 3306:3306
