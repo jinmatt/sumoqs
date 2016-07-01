@@ -1,0 +1,37 @@
+init_tasks:
+  - command: docker pull jinmatt/sumoqs
+  - command: docker-compose build
+  - command: docker-compose stop
+  - command: docker-compose rm -f -v
+  - command: docker-compose up -d
+
+watchers:
+  - directory: controllers
+    extension: js
+    tasks:
+      - command: docker exec $(docker-compose ps -q web) pm2 restart all
+
+  - directory: models
+    extension: js
+    tasks:
+      - command: docker exec $(docker-compose ps -q web) pm2 restart all
+
+  - directory: routes
+    extension: js
+    tasks:
+      - command: docker exec $(docker-compose ps -q web) pm2 restart all
+
+  - directory: views
+    extension: html
+    tasks:
+      - command: docker exec $(docker-compose ps -q web) pm2 restart all
+
+  - directory: config
+    extension: js
+    tasks:
+      - command: docker exec $(docker-compose ps -q web) pm2 restart all
+
+  - directory: config
+    extension: json
+    tasks:
+      - command: docker exec $(docker-compose ps -q web) pm2 restart all
