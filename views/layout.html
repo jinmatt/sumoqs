@@ -6,9 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}</title>
 
-    <link href="/stylesheets/style.css" rel="stylesheet">
+    <!-- Latest bootstrap compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional bootstrap theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="/stylesheets/style.css">
   </head>
   <body>
-    {% block content %}{% endblock %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Latest bootstrap compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
   </body>
 </html>
