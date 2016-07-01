@@ -1,0 +1,19 @@
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_DATABASE=surveydb
+    - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  ports:
+    - 3306:3306
+
+web:
+  build: .
+  dockerfile: DevDockerfile
+  volumes:
+    - .:/usr/src/app
+  environment:
+    - DEBUG=sumoqs:server
+  ports:
+    - 80:3000
+  links:
+    - mysql
