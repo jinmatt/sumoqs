@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>SumoQs <small>Dashboard</small></h1>
+  </div>
+
+  <table class="table">
+    <caption>Survey options</caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>{{ survey.survey }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if choices %}
+      {% for listItem in choices %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ listItem.choice }}</td>
+      </tr>
+      {% endfor %}
+      {% else %}
+      <tr>
+        <th scope="row">-</th>
+        <td><p class="text-muted">No survey options added.</p></td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <form class="form-inline" action="/dashboard/addchoice" method="POST">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" class="form-control" name="choice" placeholder="Add an answer option here...">
+          <input type="hidden" name="surveyId" value="{{ survey.id }}">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Add</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div>
+  </form>
+
+  <br>
+  <hr>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <form action="/dashboard/deletesurvey" method="POST">
+        <span class="label label-warning">Delete</span> Do you want to delete this survey?
+        <button type="submit" class="btn btn-link" style="display:inline; padding:0">Yes</button>
+        <input type="hidden" name="surveyId" value="{{ survey.id }}">
+      </form>
+    </div>
+  </div>
+{% endblock %}
