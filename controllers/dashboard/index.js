@@ -93,3 +93,20 @@ exports.listChoices = function(req, res) {
     });
   });
 };
+
+
+/**
+ * @method deleteSurvey
+ */
+exports.deleteSurvey = function(req, res) {
+  surveyModel.deleteSurvey(req.body.surveyId, function onDelete(err, isDeleted) {
+    if (err) {
+      return res.render('error', {
+        message: 'Oops! Something went wrong.',
+        error: err
+      });
+    }
+
+    res.redirect('/dashboard');
+  });
+};

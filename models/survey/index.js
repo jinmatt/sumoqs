@@ -130,7 +130,28 @@ exports.getChoices = function(surveyId, callback) {
     .catch(function(err) {
       callback(err);
     });
-    
+
+  })
+  .catch(function(err) {
+    callback(err);
+  });
+};
+
+
+/**
+ * Delete survey
+ * @method deleteSurvey
+ * @param {Number} surveyId
+ * @param {Boolean} - success or not
+ */
+exports.deleteSurvey = function(surveyId, callback) {
+  Survey.destroy({
+    where: {
+      id: surveyId
+    }
+  })
+  .then(function() {
+    callback(null, true);
   })
   .catch(function(err) {
     callback(err);
