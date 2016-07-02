@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>SumoQs <small>Dashboard</small></h1>
+  </div>
+
+  <table class="table">
+    <caption>Surveys</caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Questions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+      </tr>
+      <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <form class="form-inline" action="/dashboard/addsurvey" method="POST">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="input-group">
+          <input type="text" class="form-control" name="survey" placeholder="Enter new survey question here...">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="submit">Add</button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div>
+  </form>
+
+{% endblock %}
