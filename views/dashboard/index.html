@@ -11,17 +11,17 @@
       <tr>
         <th>#</th>
         <th>Questions</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
+      {% for listItem in surveys %}
       <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ listItem.survey }}</td>
+        <td><a href="/dashboard/viewoptions/{{ listItem.id }}">View choices</a></td>
       </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
 

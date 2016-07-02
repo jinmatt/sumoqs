@@ -6,6 +6,7 @@ var dashboard = require(__base + 'controllers/dashboard');
 router.get('/', dashboard.listSurveys);
 router.post('/addsurvey', dashboard.addSurvey);
 router.post('/addchoice', dashboard.addChoice);
+router.get('/viewoptions/:surveyId', dashboard.listChoices);
 
 
 module.exports = router;

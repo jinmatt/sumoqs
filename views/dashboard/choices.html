@@ -5,22 +5,30 @@
     <h1>SumoQs <small>Dashboard</small></h1>
   </div>
 
-  <h4>{{ survey.survey }}</h4>
-
-  <div class="panel panel-default">
-    <div class="panel-heading">Answering choices</div>
-    {% if choices %}
-    <ul class="list-group">
-      {% for item in choices %}
-      <li class="list-group-item"> - {{ item.choice }}</li>
+  <table class="table">
+    <caption>Survey options</caption>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>{{ survey.survey }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if choices %}
+      {% for listItem in choices %}
+      <tr>
+        <th scope="row">{{ loop.index }}</th>
+        <td>{{ listItem.choice }}</td>
+      </tr>
       {% endfor %}
-    </ul>
-    {% else %}
-    <div class="panel-body">
-      <p class="text-muted">No answering choices added.</p>
-    </div>
-    {% endif %}
-  </div>
+      {% else %}
+      <tr>
+        <th scope="row">-</th>
+        <td><p class="text-muted">No survey options added.</p></td>
+      </tr>
+      {% endif %}
+    </tbody>
+  </table>
 
   <form class="form-inline" action="/dashboard/addchoice" method="POST">
     <div class="row">

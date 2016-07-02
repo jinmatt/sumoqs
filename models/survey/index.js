@@ -85,3 +85,54 @@ exports.addChoice = function(surveyId, choice, callback) {
       });
     });
 };
+
+
+/**
+ * Get all surveys
+ * @method getSurveys
+ * @return {Object} surveys
+ */
+exports.getSurveys = function(callback) {
+  Survey.findAll()
+  .then(function(surveys) {
+    callback(null, surveys);
+  })
+  .catch(function(err) {
+    callback(err);
+  });
+};
+
+
+/**
+ * Get choices of a survey
+ * @method getChoices
+ * @param {Number} surveyId
+ * @return {Object} choices
+ */
+exports.getChoices = function(surveyId, callback) {
+  Choice.findAll({
+    include: [{
+      model: Survey
+    }],
+    where: { surveyId: surveyId }
+  })
+  .then(function(choicesObj) {
+
+    // Get the survey obj, chances are choiceObj can be empty
+    Survey.findOne({
+      where: {
+        id: surveyId
+      }
+    })
+    .then(function(surveyObj) {
+      callback(null, choicesObj, surveyObj);
+    })
+    .catch(function(err) {
+      callback(err);
+    });
+    
+  })
+  .catch(function(err) {
+    callback(err);
+  });
+};

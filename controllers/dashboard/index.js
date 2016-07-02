@@ -12,7 +12,19 @@ var debug = require('debug')('sumoqs:server');
  * Home page of admin dashboard, lists all surveys
  */
 exports.listSurveys = function(req, res) {
-  res.render('dashboard/index', { title: 'SumoQs Dashboard' });
+  surveyModel.getSurveys(function onListing(err, surveys) {
+    if (err) {
+      return res.render('error', {
+        message: 'Oops! Something went wrong.',
+        error: err
+      });
+    }
+
+    res.render('dashboard/index', {
+      title: 'SumoQs Dashboard',
+      surveys: surveys
+    });
+  });
 };
 
 
@@ -30,7 +42,7 @@ exports.addSurvey = function(req, res) {
       });
     }
 
-    res.render('dashboard/add-choices', {
+    res.render('dashboard/choices', {
       title: 'SumoQs Dashboard',
       survey: survey
     });
@@ -51,10 +63,33 @@ exports.addChoice = function(req, res) {
       });
     }
 
-    res.render('dashboard/add-choices', {
+    res.render('dashboard/choices', {
       title: 'SumoQs Dashboard',
       survey: choiceObj[0].survey,
       choices: choiceObj
+    });
+  });
+};
+
+
+/**
+ * @method listChoices
+ */
+exports.listChoices = function(req, res) {
+  surveyModel.getChoices(req.params.surveyId, function onListing(err, choicesObj, surveyObj) {
+    if (err) {
+      return res.render('error', {
+        message: 'Oops! Something went wrong.',
+        error: err
+      });
+    }
+
+    res.render('dashboard/choices', {
+      title: 'SumoQs Dashboard',
+      survey: surveyObj,
+      choices: choicesObj.length
+        ? choicesObj
+        : null
     });
   });
 };
