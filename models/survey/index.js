@@ -6,6 +6,10 @@ var Sequelize = require('sequelize');
 var sequelize = require(__base + 'config/sequelize');
 var debug = require('debug')('sumoqs');
 
+
+/**
+ * Survey model definition
+ */
 var Survey = sequelize.define('survey', {
  survey: {
    type: Sequelize.STRING,
@@ -15,6 +19,10 @@ var Survey = sequelize.define('survey', {
  freezeTableName: true,
 });
 
+
+/**
+ * Choice model definition - 1:n relation from survey:choice
+ */
 var Choice = sequelize.define('survey_choices', {
   choice: {
     type: Sequelize.STRING,
@@ -26,6 +34,8 @@ var Choice = sequelize.define('survey_choices', {
 
 Survey.hasMany(Choice);
 Choice.belongsTo(Survey);
+Survey.sync();
+
 
 /**
  * Add new survey
@@ -50,7 +60,6 @@ exports.addSurvey = function(survey, callback) {
 
 
 /**
- * Add new choice to a survey
  * @method addChoice
  * @param {Number} surveyId
  * @param {String} choice - choice for surveyId
@@ -88,7 +97,6 @@ exports.addChoice = function(surveyId, choice, callback) {
 
 
 /**
- * Get all surveys
  * @method getSurveys
  * @return {Object} surveys
  */
@@ -104,7 +112,6 @@ exports.getSurveys = function(callback) {
 
 
 /**
- * Get choices of a survey
  * @method getChoices
  * @param {Number} surveyId
  * @return {Object} choices
@@ -139,10 +146,11 @@ exports.getChoices = function(surveyId, callback) {
 
 
 /**
- * Delete survey
  * @method deleteSurvey
  * @param {Number} surveyId
  * @param {Boolean} - success or not
+ *
+ * @todo remove choices corresponding to the surveyId
  */
 exports.deleteSurvey = function(surveyId, callback) {
   Survey.destroy({
@@ -152,6 +160,48 @@ exports.deleteSurvey = function(surveyId, callback) {
   })
   .then(function() {
     callback(null, true);
+  })
+  .catch(function(err) {
+    callback(err);
+  });
+};
+
+
+
+/**
+ * @method getRandSurvey
+ * @return {Object} surveyObj
+ */
+exports.getRandSurvey = function(callback) {
+  Survey.find({
+    order: [
+      Sequelize.fn('RAND')
+    ]
+    // ,
+    // where: {
+    //   id: {
+    //     $notIn: [2]
+    //   }
+    // }
+  })
+  .then(function(survey) {
+
+    // FIXME: should be a single query, this is bad! Need to find out why RAND with `include` not working
+    Choice.findAll({
+      include: [{
+        model: Survey
+      }],
+      where: {
+        surveyId: survey.id
+      }
+    })
+    .then(function(surveyObj) {
+      callback(null, surveyObj);
+    })
+    .catch(function(err) {
+      callback(err);
+    });
+
   })
   .catch(function(err) {
     callback(err);
