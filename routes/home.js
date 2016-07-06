@@ -5,5 +5,6 @@ var sessionHandler = require(__base + 'libs/session-handler');
 
 /* GET home page. */
 router.get('/', sessionHandler.setSession, home.getHome);
+router.post('/survey/record', sessionHandler.setSession, home.recordSurvey);
 
 module.exports = router;

@@ -13,10 +13,15 @@ exports.setSession = function(req, res, next) {
     : false;
 
   if (!hasSession) {
-    res.cookie('sessionId', uuid.v4(), {
+    var sessionId = uuid.v4();
+    res.cookie('sessionId', sessionId, {
       httpOnly: true,
       signed: true
     });
+
+    req.sessionId = sessionId;
+  } else {
+    req.sessionId = req.signedCookies.sessionId;
   }
 
   next();
