@@ -2,7 +2,7 @@ init_tasks:
   - command: docker pull jinmatt/sumoqs
   - command: docker-compose build
   - command: docker-compose stop
-  - command: docker-compose rm -f -v
+  - command: docker-compose rm -f --all
   - command: docker-compose up -d
 
 watchers:

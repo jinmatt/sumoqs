@@ -18,8 +18,7 @@ exports.getHome = function(req, res) {
         error: err
       });
     }
-    debug(surveyObj);
-    //return res.json(surveyObj);
+
     res.render('index', {
       title: 'SumoQs',
       survey: surveyObj[0].survey,
