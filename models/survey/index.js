@@ -16,12 +16,12 @@ var Survey = sequelize.define('survey', {
    field: 'survey'
  }
 }, {
- freezeTableName: true,
+ freezeTableName: true
 });
 
 
 /**
- * Choice model definition - 1:n relation from survey:choice
+ * Choice model definition - 1:m relation from survey:choice
  */
 var Choice = sequelize.define('survey_choices', {
   choice: {
@@ -29,11 +29,27 @@ var Choice = sequelize.define('survey_choices', {
     field: 'choice'
   },
 }, {
-  freezeTableName: true,
+  freezeTableName: true
 });
 
+
+/**
+ * Record model definition - 1:m relation from
+ */
+var Record = sequelize.define('survey_records', {
+  sessionId: {
+    type: Sequelize.UUID,
+    field: 'sessionId'
+  }
+}, {
+  freezeTableName: true
+});
+
+
 Survey.hasMany(Choice);
+Survey.hasMany(Record);
 Choice.belongsTo(Survey);
+Choice.hasMany(Record);
 Survey.sync();
 
 
@@ -206,4 +222,27 @@ exports.getRandSurvey = function(callback) {
   .catch(function(err) {
     callback(err);
   });
+};
+
+
+
+/**
+ * @method recordSurvey
+ * @return {Object} as record callback object
+ */
+exports.recordSurvey = function(sessionId, surveyId, choiceId, callback) {
+  Record.sync()
+    .then(function() {
+      Record.create({
+        sessionId: sessionId,
+        surveyId: surveyId,
+        surveyChoiceId: choiceId
+      })
+      .then(function(record) {
+        callback(null, record);
+      })
+      .catch(function(err) {
+        callback(err);
+      });
+    });
 };

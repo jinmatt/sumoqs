@@ -26,3 +26,22 @@ exports.getHome = function(req, res) {
     });
   });
 };
+
+
+/**
+ * @method recordSurvey
+ */
+exports.recordSurvey = function(req, res) {
+  surveyModel.recordSurvey(req.sessionId, req.body.surveyId, req.body.selectedChoice, function onSurveyRecord(err, record) {
+    if (err) {
+      return res.render('error', {
+        message: 'Oops! Something went wrong.',
+        error: err
+      });
+    }
+
+    res.render('thanks', {
+      title: 'SumoQs'
+    });
+  });
+};
