@@ -4,7 +4,8 @@
 
 var Sequelize = require('sequelize');
 var sequelize = require(__base + 'config/sequelize');
-var debug = require('debug')('sumoqs');
+var _ = require('lodash');
+var debug = require('debug')('sumoqs:server');
 
 
 /**
@@ -186,33 +187,60 @@ exports.deleteSurvey = function(surveyId, callback) {
 
 /**
  * @method getRandSurvey
+ * @param {String} sessionId
  * @return {Object} surveyObj
  */
-exports.getRandSurvey = function(callback) {
-  Survey.find({
-    order: [
-      Sequelize.fn('RAND')
-    ]
-    // ,
-    // where: {
-    //   id: {
-    //     $notIn: [2]
-    //   }
-    // }
-  })
-  .then(function(survey) {
+exports.getRandSurvey = function(sessionId, callback) {
 
-    // FIXME: should be a single query, this is bad! Need to find out why RAND with `include` not working
-    Choice.findAll({
-      include: [{
-        model: Survey
-      }],
-      where: {
-        surveyId: survey.id
+  Record.findAll({
+    where: {
+      sessionId: sessionId
+    },
+    attributes: [
+      'surveyId'
+    ]
+  })
+  .then(function(records) {
+    var recordsArr = _.map(records, 'surveyId');
+
+    var whereNotIn = {};
+    if (recordsArr.length) {
+      whereNotIn = {
+        id: {
+          $notIn: recordsArr
+        }
       }
+    }
+
+    Survey.find({
+      order: [
+        Sequelize.fn('RAND')
+      ],
+      where: whereNotIn
     })
-    .then(function(surveyObj) {
-      callback(null, surveyObj);
+    .then(function(survey) {
+
+      if (!survey) {
+        return callback(null, null);
+      }
+
+
+      // FIXME: should be a single query, this is bad! Need to find out why RAND with `include` not working
+      Choice.findAll({
+        include: [{
+          model: Survey
+        }],
+        where: {
+          surveyId: survey.id
+        }
+      })
+      .then(function(surveyObj) {
+        callback(null, surveyObj);
+      })
+      .catch(function(err) {
+        callback(err);
+      });
+
     })
     .catch(function(err) {
       callback(err);
@@ -220,8 +248,9 @@ exports.getRandSurvey = function(callback) {
 
   })
   .catch(function(err) {
-    callback(err);
+
   });
+
 };
 
 

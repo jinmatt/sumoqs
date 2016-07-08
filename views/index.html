@@ -4,6 +4,7 @@
   <h1>{{ title }}</h1>
   <br>
 
+  {% if survey %}
   <div class="panel panel-default">
     <div class="panel-heading">{{ survey.survey }}</div>
     <div class="panel-body">
@@ -21,5 +22,10 @@
       </form>
     </div>
   </div>
+  {% else %}
+  <p class="lead">No surveys available.</p>
+  <hr>
+  <p class="text-warning">Clear your browser cookies/history and try again to see previous surveys.</p>
+  {% endif %}
 
 {% endblock %}

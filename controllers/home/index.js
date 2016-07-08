@@ -11,11 +11,17 @@ var debug = require('debug')('sumoqs:server');
  *
  */
 exports.getHome = function(req, res) {
-  surveyModel.getRandSurvey(function onSurveyGet(err, surveyObj) {
+  surveyModel.getRandSurvey(req.sessionId, function onSurveyGet(err, surveyObj) {
     if (err) {
       return res.render('error', {
         message: 'Oops! Something went wrong.',
         error: err
+      });
+    }
+
+    if(!surveyObj) {
+      return res.render('index', {
+        title: 'SumoQs'
       });
     }
 

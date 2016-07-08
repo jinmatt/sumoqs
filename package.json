@@ -11,6 +11,7 @@
     "debug": "~2.2.0",
     "express": "~4.13.4",
     "less-middleware": "1.0.x",
+    "lodash": "^4.13.1",
     "morgan": "~1.7.0",
     "mysql": "^2.11.1",
     "nunjucks": "^2.4.2",
