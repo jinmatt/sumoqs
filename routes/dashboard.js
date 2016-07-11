@@ -4,9 +4,10 @@ var dashboard = require(__base + 'controllers/dashboard');
 
 /* Dashboard routes */
 router.get('/', dashboard.listSurveys);
+router.get('/viewoptions/:surveyId', dashboard.listChoices);
+router.get('/stats/:surveyId', dashboard.getStats);
 router.post('/addsurvey', dashboard.addSurvey);
 router.post('/addchoice', dashboard.addChoice);
-router.get('/viewoptions/:surveyId', dashboard.listChoices);
 router.post('/deletesurvey', dashboard.deleteSurvey);
 
 

@@ -12,6 +12,7 @@
         <th>#</th>
         <th>Questions</th>
         <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
@@ -19,7 +20,8 @@
       <tr>
         <th scope="row">{{ loop.index }}</th>
         <td>{{ listItem.survey }}</td>
-        <td><a href="/dashboard/viewoptions/{{ listItem.id }}">View choices</a></td>
+        <td><a href="/dashboard/viewoptions/{{ listItem.id }}">Manage</a></td>
+        <td><a href="/dashboard/stats/{{ listItem.id }}">Results</a></td>
       </tr>
       {% endfor %}
     </tbody>
