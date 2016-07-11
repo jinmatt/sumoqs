@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <div class="page-header">
+    <h1>SumoQs <small>Dashboard</small></h1>
+  </div>
+
+  <div class="panel panel-default">
+  <div class="panel-heading">Survey Results</div>
+  <div class="panel-body">
+    <p>Q: {{ survey.survey }}</p>
+  </div>
+
+  <ul class="list-group">
+    {% for listItem in choices %}
+    <li class="list-group-item">
+      {% if listItem.votes %}
+      <span class="badge">{{ listItem.votes }}</span>
+      {% else %}
+      <span class="badge">0</span>
+      {% endif %}
+
+      {{ listItem.choice }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

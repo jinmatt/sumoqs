@@ -275,3 +275,53 @@ exports.recordSurvey = function(sessionId, surveyId, choiceId, callback) {
       });
     });
 };
+
+
+
+/**
+ * @method getStats
+ * @param {Number} surveyId
+ * @return {Object} as statsObj with results count for each choices
+ */
+exports.getStats = function(surveyId, callback) {
+  Record.findAll({
+    where: {
+      surveyId: surveyId
+    },
+    attributes: ['surveyId', 'surveyChoiceId', [Sequelize.fn('COUNT', Sequelize.col('surveyChoiceId')), 'votes']],
+    group: ['surveyId', 'surveyChoiceId']
+  })
+  .then(function(statsObj) {
+
+    Choice.findAll({
+      include: [{
+        model: Survey
+      }],
+      where: {
+        surveyId: surveyId
+      }
+    })
+    .then(function(surveyObj) {
+      _.mergeWith(surveyObj, statsObj, mergeVotes);
+      callback(null, surveyObj);
+    })
+    .catch(function(err) {
+      callback(err);
+    });
+
+  })
+  .catch(function(err) {
+    callback(err);
+  });
+};
+
+
+
+/**
+ * @method mergeVotes
+ *
+ * helper method to merge statsObj with surveyObj when getting votes
+ */
+function mergeVotes(surveyObj, statsObj) {
+  return JSON.parse(JSON.stringify(_.merge(surveyObj, statsObj)));
+}

@@ -110,3 +110,24 @@ exports.deleteSurvey = function(req, res) {
     res.redirect('/dashboard');
   });
 };
+
+
+/**
+ * @method getStats
+ */
+exports.getStats = function(req, res) {
+  surveyModel.getStats(req.params.surveyId, function onGetStats(err, statsObj) {
+    if (err) {
+      return res.render('error', {
+        message: 'Oops! Something went wrong.',
+        error: err
+      });
+    }
+    
+    res.render('dashboard/stats', {
+      title: 'SumoQs Dashboard',
+      survey: statsObj[0].survey,
+      choices: statsObj
+    });
+  });
+};
