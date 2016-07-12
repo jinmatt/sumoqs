@@ -14,6 +14,7 @@ web:
   environment:
     - DEBUG=sumoqs:server
     - SESSION_SECRET=sumoqs-has-a-secret
+    - ADMIN_PASS=letmein
   ports:
     - 80:3000
   links:
