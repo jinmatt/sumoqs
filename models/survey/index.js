@@ -192,65 +192,67 @@ exports.deleteSurvey = function(surveyId, callback) {
  */
 exports.getRandSurvey = function(sessionId, callback) {
 
-  Record.findAll({
-    where: {
-      sessionId: sessionId
-    },
-    attributes: [
-      'surveyId'
-    ]
-  })
-  .then(function(records) {
-    var recordsArr = _.map(records, 'surveyId');
-
-    var whereNotIn = {};
-    if (recordsArr.length) {
-      whereNotIn = {
-        id: {
-          $notIn: recordsArr
-        }
-      }
-    }
-
-    Survey.find({
-      order: [
-        Sequelize.fn('RAND')
-      ],
-      where: whereNotIn
-    })
-    .then(function(survey) {
-
-      if (!survey) {
-        return callback(null, null);
-      }
-
-
-      // FIXME: should be a single query, this is bad! Need to find out why RAND with `include` not working
-      Choice.findAll({
-        include: [{
-          model: Survey
-        }],
+  Record.sync()
+    .then(function() {
+      Record.findAll({
         where: {
-          surveyId: survey.id
-        }
+          sessionId: sessionId
+        },
+        attributes: [
+          'surveyId'
+        ]
       })
-      .then(function(surveyObj) {
-        callback(null, surveyObj);
+      .then(function(records) {
+        var recordsArr = _.map(records, 'surveyId');
+
+        var whereNotIn = {};
+        if (recordsArr.length) {
+          whereNotIn = {
+            id: {
+              $notIn: recordsArr
+            }
+          }
+        }
+
+        Survey.find({
+          order: [
+            Sequelize.fn('RAND')
+          ],
+          where: whereNotIn
+        })
+        .then(function(survey) {
+
+          if (!survey) {
+            return callback(null, null);
+          }
+
+
+          // FIXME: should be a single query, this is bad! Need to find out why RAND with `include` not working
+          Choice.findAll({
+            include: [{
+              model: Survey
+            }],
+            where: {
+              surveyId: survey.id
+            }
+          })
+          .then(function(surveyObj) {
+            callback(null, surveyObj);
+          })
+          .catch(function(err) {
+            callback(err);
+          });
+
+        })
+        .catch(function(err) {
+          callback(err);
+        });
+
       })
       .catch(function(err) {
-        callback(err);
+
       });
-
-    })
-    .catch(function(err) {
-      callback(err);
     });
-
-  })
-  .catch(function(err) {
-
-  });
-
 };
 
 
