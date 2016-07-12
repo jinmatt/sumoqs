@@ -26,7 +26,7 @@ watchers:
     tasks:
       - command: docker exec $(docker-compose ps -q web) pm2 restart all
 
-  - directory: config
+  - directory: libs
     extension: js
     tasks:
       - command: docker exec $(docker-compose ps -q web) pm2 restart all

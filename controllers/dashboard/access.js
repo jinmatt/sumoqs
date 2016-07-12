@@ -14,6 +14,7 @@ exports.login = function(req, res) {
 };
 
 
+
 /**
  * @method verify
  */
@@ -33,7 +34,7 @@ exports.verify = function(req, res) {
   var isCorrect = configPassword === req.body.password
     ? true
     : false;
-  debug(isCorrect);
+
   if (isCorrect) {
     res.cookie('isVerified', isCorrect, {
       httpOnly: true,
@@ -47,4 +48,15 @@ exports.verify = function(req, res) {
   }
 
   res.redirect('/dashboard');
+};
+
+
+
+/**
+ * @method logout
+ */
+exports.logout = function(req, res) {
+  res.clearCookie('isVerified');
+
+  res.redirect('/dashboard/login');
 };
