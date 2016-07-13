@@ -1,9 +1,11 @@
 {% extends "layout.html" %}
 
+{% block navbar %}
+  {% include "../partials/dash-nav.html" %}
+{% endblock %}
+
 {% block content %}
-  <div class="page-header">
-    <h1>SumoQs <small>Dashboard</small></h1>
-  </div>
+  {% include "../partials/dash-header.html" %}
 
   <table class="table">
     <caption>Surveys</caption>
@@ -30,8 +32,8 @@
 
   <form class="form-inline" action="/dashboard/addsurvey" method="POST">
     <div class="row">
-      <div class="col-lg-6">
-        <div class="input-group">
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+        <div class="input-group col-xs-12 col-sm-8 col-md-8 col-lg-8">
           <input type="text" class="form-control" name="survey" placeholder="Enter new survey question here...">
           <span class="input-group-btn">
             <button class="btn btn-default" type="submit">Add</button>

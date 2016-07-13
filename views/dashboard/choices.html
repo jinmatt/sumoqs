@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 
+{% block navbar %}
+  {% include "../partials/dash-nav.html" %}
+{% endblock %}
+
 {% block content %}
-  <div class="page-header">
-    <h1>SumoQs <small>Dashboard</small></h1>
-  </div>
+  <a class="btn btn-default btn-sm" href="/dashboard" role="button">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back</a>
+
+  {% include "../partials/dash-header.html" %}
 
   <table class="table">
     <caption>Survey options</caption>
@@ -32,8 +37,8 @@
 
   <form class="form-inline" action="/dashboard/addchoice" method="POST">
     <div class="row">
-      <div class="col-lg-6">
-        <div class="input-group">
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+        <div class="input-group col-xs-12 col-sm-8 col-md-8 col-lg-8">
           <input type="text" class="form-control" name="choice" placeholder="Add an answer option here...">
           <input type="hidden" name="surveyId" value="{{ survey.id }}">
           <span class="input-group-btn">
