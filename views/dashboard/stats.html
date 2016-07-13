@@ -1,9 +1,14 @@
 {% extends "layout.html" %}
 
+{% block navbar %}
+  {% include "../partials/dash-nav.html" %}
+{% endblock %}
+
 {% block content %}
-  <div class="page-header">
-    <h1>SumoQs <small>Dashboard</small></h1>
-  </div>
+  <a class="btn btn-default btn-sm" href="/dashboard" role="button">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back</a>
+
+  {% include "../partials/dash-header.html" %}
 
   <div class="panel panel-default">
   <div class="panel-heading">Survey Results</div>
