@@ -250,8 +250,11 @@ exports.getRandSurvey = function(sessionId, callback) {
 
       })
       .catch(function(err) {
-
+        callback(err);
       });
+    })
+    .catch(function(err) {
+      callback(null, null);
     });
 };
 
