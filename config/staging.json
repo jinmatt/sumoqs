@@ -4,7 +4,7 @@
   },
   "mysql": {
     "host": "52.40.52.102",
-    "port": 18062,
+    "port": 3143,
     "username": "root",
     "password": "letmein",
     "database": "surveydb",
