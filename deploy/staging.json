@@ -1,0 +1,47 @@
+{
+    "id": "#app_name#",
+    "cpus": 1,
+    "mem": 1024,
+    "instances": 1,
+    "env": {
+      "SERVICE_NAME": "#app_name#",
+      "NODE_ENV": "staging",
+      "SESSION_SECRET": "sumoqs-has-a-secret",
+      "ADMIN_PASS": "letmein"
+    },
+    "ports": [
+      0
+    ],
+    "container": {
+        "type": "DOCKER",
+        "docker": {
+            "image": "jinmatt/sumoqs:#tag#",
+            "forcePullImage": true,
+            "privileged": true,
+            "network":"BRIDGE",
+            "portMappings": [
+              {
+                "containerPort": 3000,
+                "hostPort": 0,
+                "servicePort": 0,
+                "protocol": "tcp"
+              }
+            ],
+            "parameters": [
+             { "key": "publish-all", "value": "true" }
+           ]
+        }
+    },
+    "constraints": [
+      [
+        "hostname",
+        "UNIQUE"
+      ]
+    ],
+    "acceptedResourceRoles": [
+      "slave_public"
+    ],
+    "upgradeStrategy": {
+        "minimumHealthCapacity": 0.5
+    }
+}
