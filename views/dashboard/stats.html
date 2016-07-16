@@ -10,6 +10,7 @@
 
   {% include "../partials/dash-header.html" %}
 
+  {% if survey %}
   <div class="panel panel-default">
   <div class="panel-heading">Survey Results</div>
   <div class="panel-body">
@@ -30,4 +31,7 @@
     {% endfor %}
   </ul>
 </div>
+{% else %}
+<p>No votes for the survey yet.</p>
+{% endif %}
 {% endblock %}
