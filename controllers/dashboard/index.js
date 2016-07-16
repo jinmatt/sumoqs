@@ -123,11 +123,15 @@ exports.getStats = function(req, res) {
         error: err
       });
     }
-    
+
     res.render('dashboard/stats', {
       title: 'SumoQs Dashboard',
-      survey: statsObj[0].survey,
+      survey: statsObj
+        ? statsObj[0].survey
+        : null,
       choices: statsObj
+        ? statsObj
+        : null
     });
   });
 };

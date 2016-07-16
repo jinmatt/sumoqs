@@ -316,7 +316,7 @@ exports.getStats = function(surveyId, callback) {
 
   })
   .catch(function(err) {
-    callback(err);
+    callback(null, null);
   });
 };
 
