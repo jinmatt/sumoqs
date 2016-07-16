@@ -307,7 +307,8 @@ exports.getStats = function(surveyId, callback) {
       }
     })
     .then(function(surveyObj) {
-      _.mergeWith(surveyObj, statsObj, mergeVotes);
+      //debug(JSON.stringify(surveyObj));
+      var surveyObj = mergeVotes(surveyObj, statsObj);
       callback(null, surveyObj);
     })
     .catch(function(err) {
@@ -328,5 +329,17 @@ exports.getStats = function(surveyId, callback) {
  * helper method to merge statsObj with surveyObj when getting votes
  */
 function mergeVotes(surveyObj, statsObj) {
-  return JSON.parse(JSON.stringify(_.merge(surveyObj, statsObj)));
+  
+  //Remove unwanted prototypes
+  surveyObj = JSON.parse(JSON.stringify(surveyObj));
+  statsObj = JSON.parse(JSON.stringify(statsObj));
+
+  var newSurveyObj = _(surveyObj).forEach(function(survey) {
+    var statsItem = _.find(statsObj, { surveyChoiceId: survey.id });
+    survey.votes = statsItem
+      ? statsItem.votes
+      : 0;
+  });
+
+  return newSurveyObj;
 }
