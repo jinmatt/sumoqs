@@ -2,10 +2,12 @@
  * Survey model
  */
 
-var Sequelize = require('sequelize');
-var sequelize = require(__base + 'config/sequelize');
 var _ = require('lodash');
 var debug = require('debug')('sumoqs:server');
+var Sequelize = require('sequelize');
+var sequelize = require(__base + 'config/sequelize');
+var Choice = require('./choice');
+var Record = require('./record');
 
 
 /**
@@ -22,31 +24,8 @@ var Survey = sequelize.define('survey', {
 
 
 /**
- * Choice model definition - 1:m relation from survey:choice
+ * Define relations
  */
-var Choice = sequelize.define('survey_choices', {
-  choice: {
-    type: Sequelize.STRING,
-    field: 'choice'
-  },
-}, {
-  freezeTableName: true
-});
-
-
-/**
- * Record model definition - 1:m relation from
- */
-var Record = sequelize.define('survey_records', {
-  sessionId: {
-    type: Sequelize.UUID,
-    field: 'sessionId'
-  }
-}, {
-  freezeTableName: true
-});
-
-
 Survey.hasMany(Choice);
 Survey.hasMany(Record);
 Choice.belongsTo(Survey);
@@ -329,7 +308,7 @@ exports.getStats = function(surveyId, callback) {
  * helper method to merge statsObj with surveyObj when getting votes
  */
 function mergeVotes(surveyObj, statsObj) {
-  
+
   //Remove unwanted prototypes
   surveyObj = JSON.parse(JSON.stringify(surveyObj));
   statsObj = JSON.parse(JSON.stringify(statsObj));

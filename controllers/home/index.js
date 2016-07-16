@@ -24,7 +24,7 @@ exports.getHome = function(req, res) {
         title: 'SumoQs'
       });
     }
-
+    
     res.render('index', {
       title: 'SumoQs',
       survey: surveyObj[0].survey,
