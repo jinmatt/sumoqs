@@ -22,7 +22,7 @@
             "portMappings": [
               {
                 "containerPort": 3000,
-                "hostPort": 0,
+                "hostPort": 3000,
                 "servicePort": 0,
                 "protocol": "tcp"
               }
