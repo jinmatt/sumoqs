@@ -9,7 +9,6 @@ var nunjucks = require('nunjucks');
 
 var homeRoutes = require('./routes/home');
 var dashRoutes = require('./routes/dashboard');
-var userRoutes = require('./routes/users');
 
 var app = express();
 
@@ -26,8 +25,6 @@ var env = nunjucks.configure('views', {
 });
 global.__nunjucksEnv = env;
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -36,7 +33,6 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dashboard', dashRoutes);
-app.use('/users', userRoutes);
 app.use('/', homeRoutes);
 
 // catch 404 and forward to error handler
